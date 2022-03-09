@@ -28,12 +28,14 @@ function convertToJSON(data) {
   return JSON.parse(data.Body.toString("utf-8"));
 }
 
-function appendEntry(data) {
-  data.push({
-    direction: 160,
-    speed: 15,
-    time: Date.now(),
-  });
+function appendEntry(data, newData) {
+  // data.push({
+  //   direction: 160,
+  //   speed: 15,
+  //   time: Date.now(),
+  // });
+
+  data.push(newData);
 
   return data;
 }
@@ -47,5 +49,9 @@ function putToS3(data) {
   });
 }
 
-//get the JSON file, then append the new data that has come in and then put it back to the s3 bucket
-getObject().then((data) => putToS3(appendEntry(convertToJSON(data))));
+export const lambdaFunction = (newData) => {
+  //get the JSON file, then append the new data that has come in and then put it back to the s3 bucket
+  getObject().then((data) =>
+    putToS3(appendEntry(convertToJSON(data), newData))
+  );
+};

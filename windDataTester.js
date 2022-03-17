@@ -1,4 +1,4 @@
-let AWS = require("aws-sdk");
+let AWS = require("@aws-sdk/client-s3");
 let dotenv = require("dotenv");
 
 dotenv.config();
